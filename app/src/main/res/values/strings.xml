@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Butterfly</string>
+
+    <string name="crated_with_love">Crafted with \u2764</string>
+    <string name="vj">OTAzNjY0MDUyOA==</string>
+    <string name="vjl">ODk3MDAzNzQ2Nw==</string>
+    <string name="message">Butterfly Login OTP is&#160;</string>
+    <string name="not_registered">You are not registered user</string>
+    <string name="sms_permission_required">SMS permission required to login Sweetheart \u2764…</string>
+    <string name="yes_login">Yes I love you!</string>
+    <string name="put_your_number">Put your number here babe</string>
+</resources>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="loginVM"
+            type="com.vj.butterfly.viewmodels.LoginViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue_dark"
+        tools:context=".activities.LoginActivity">
+
+        <!--<TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/white"
+            android:text="Butterfly"
+            android:textSize="@dimen/_20ssp"
+            android:drawableEnd="@drawable/butterfly_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--<ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/butterfly_logo"
+            app:layout_constraintBottom_toTopOf="@+id/tvButterFlyLogo"
+            app:layout_constraintStart_toEndOf="@+id/tvButterFlyLogo"
+            app:layout_constraintTop_toTopOf="@+id/tvButterFlyLogo" />-->
+
+        <TextView
+            android:id="@+id/tvButterFlyLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sacramento_regular"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_29ssp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lottie_view" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_view"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_130sdp"
+            app:layout_constraintEnd_toEndOf="@+id/tvButterFlyLogo"
+            app:layout_constraintStart_toStartOf="@+id/tvButterFlyLogo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="butterfly.json"
+            app:lottie_loop="true" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/butterfly_logo"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/lottie_view"
+            app:layout_constraintEnd_toEndOf="@+id/lottie_view"
+            app:layout_constraintStart_toStartOf="@+id/lottie_view"
+            app:layout_constraintTop_toTopOf="@+id/lottie_view" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_phone_number"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_50sdp"
+            android:hint="@string/put_your_number"
+            app:boxCornerRadiusBottomEnd="@dimen/_7sdp"
+            app:boxCornerRadiusBottomStart="@dimen/_7sdp"
+            app:boxCornerRadiusTopEnd="@dimen/_7sdp"
+            app:boxCornerRadiusTopStart="@dimen/_7sdp"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="@style/TextHint.Size"
+            app:hintTextColor="@color/pink_red_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="@dimen/_170sdp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/pink_red"
+                android:gravity="center"
+                android:imeOptions="actionGo"
+                android:inputType="number"
+                android:maxLength="10"
+                android:maxLines="1"
+                android:text="@={loginVM.phoneNumber}"
+                android:textColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/mBtnLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:backgroundTint="@{loginVM.loginButtonBackground}"
+            android:enabled="@{loginVM.isButtonEnabled()}"
+            android:onClick="@{() -> loginVM.validationLogin()}"
+            android:text="@string/yes_login"
+            android:textAllCaps="false"
+            app:elevation="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/et_phone_number"
+            app:layout_constraintStart_toStartOf="@+id/et_phone_number"
+            app:layout_constraintTop_toBottomOf="@+id/et_phone_number" />
+
+        <!--app:cornerRadius="@dimen/_5sdp"
+        android:backgroundTint="@color/pink_red"-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:text="@string/crated_with_love"
+            android:textColor="@color/blue_light_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
