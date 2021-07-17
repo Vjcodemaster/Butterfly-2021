@@ -1,4 +1,4 @@
-package com.vj.butterfly.activities
+package com.vj.butterfly.ui.activities
 
 import android.os.Build
 import android.os.Bundle

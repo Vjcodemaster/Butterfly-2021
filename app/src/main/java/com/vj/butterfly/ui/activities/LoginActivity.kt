@@ -1,4 +1,4 @@
-package com.vj.butterfly.activities
+package com.vj.butterfly.ui.activities
 
 import android.content.Intent
 import android.content.IntentFilter
@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat.Type.systemBars
@@ -16,11 +18,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.vj.butterfly.R
+import com.vj.butterfly.app_utility.AppPreferences
 import com.vj.butterfly.app_utility.EnumConstants
 import com.vj.butterfly.app_utility.OTPReceiver
 import com.vj.butterfly.app_utility.PermissionHandler
 import com.vj.butterfly.databinding.ActivityLoginBinding
 import com.vj.butterfly.viewmodels.LoginViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -56,6 +63,9 @@ class LoginActivity : AppCompatActivity() {
         ).get(LoginViewModel::class.java)
         mActivityLoginBinding.loginVM = mLoginViewModel
         mActivityLoginBinding.lifecycleOwner = this@LoginActivity
+        AppPreferences.init(this)
+        checkLogin()
+
         mLoginViewModel.registerResources(resources)
         permissionHandler = PermissionHandler()
         //mLoginViewModel.getPhoneNumberOfUser()
@@ -66,6 +76,37 @@ class LoginActivity : AppCompatActivity() {
         initSmsListener()
     }
 
+    private fun checkLogin(){
+        if(AppPreferences.loggedIn) {
+            mActivityLoginBinding.etPhoneNumber.visibility = View.GONE
+            mActivityLoginBinding.mBtnLogin.visibility = View.GONE
+
+            val layoutParams = ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                ConstraintLayout.LayoutParams.WRAP_CONTENT
+            )
+
+            layoutParams.bottomToBottom = ConstraintSet.PARENT_ID
+            layoutParams.endToEnd = ConstraintSet.PARENT_ID
+            layoutParams.startToStart = ConstraintSet.PARENT_ID
+            layoutParams.topToTop = ConstraintSet.PARENT_ID
+
+            mActivityLoginBinding.lottieView.layoutParams = layoutParams
+
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(1500)
+                openMainActivity()
+            }
+            return
+        }
+    }
+
+    private fun openMainActivity(){
+        val mainActivityIntent = Intent(this@LoginActivity, MainActivity::class.java)
+        startActivity(mainActivityIntent)
+        finish()
+    }
+
     private fun initBroadCast() {
         intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
         otpReceiver = OTPReceiver()
@@ -73,9 +114,8 @@ class LoginActivity : AppCompatActivity() {
             override fun onOTPReceived(otp: String?) {
                 //showToast("OTP Received: $otp")
                 if (otp == mLoginViewModel.otp) {
-                    val mainActivityIntent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(mainActivityIntent)
-                    finish()
+                    AppPreferences.loggedIn = true
+                   openMainActivity()
                 }
                 //Toast.makeText(this@LoginActivity, otp, Toast.LENGTH_LONG).show()
             }
