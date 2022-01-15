@@ -7,14 +7,14 @@ import android.content.SharedPreferences
 object AppPreferences {
     private const val APP_PREFERENCES = "BUTTERFLY_PREFERENCES"
 
-    private const val PRIVATE_MODE = 0
+    //private const val PRIVATE_MODE = 0
 
     private lateinit var sharedPreferences: SharedPreferences
 
     private val IS_LOGGED_IN = Pair("IS_LOGGED_IN", false)
 
     fun init(context: Context) {
-        sharedPreferences = context.getSharedPreferences(APP_PREFERENCES, PRIVATE_MODE)
+        sharedPreferences = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
     }
 
     /**

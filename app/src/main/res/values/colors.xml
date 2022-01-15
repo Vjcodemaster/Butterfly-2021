@@ -13,7 +13,9 @@
     <color name="blue_navy">#0F3460</color>
     <color name="blue_light_text">#FF40546C</color>
     <color name="pink_red">#e94560</color>
+    <color name="color_red">#FF4C4C</color>
     <color name="pink_red_dark">#9A3041</color>
 
+    <color name="color_green">#34C176</color>
     <color name="grey_light">#C3C3C3</color>
 </resources>

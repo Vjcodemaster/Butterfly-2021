@@ -2,27 +2,21 @@ package com.vj.butterfly.ui.activities
 
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.WindowInsetsCompat.Type.systemBars
-import androidx.core.view.WindowInsetsControllerCompat
-import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.android.material.snackbar.Snackbar
 import com.vj.butterfly.R
-import com.vj.butterfly.app_utility.AppPreferences
-import com.vj.butterfly.app_utility.EnumConstants
-import com.vj.butterfly.app_utility.OTPReceiver
-import com.vj.butterfly.app_utility.PermissionHandler
+import com.vj.butterfly.app_utility.*
 import com.vj.butterfly.databinding.ActivityLoginBinding
+import com.vj.butterfly.ui.base.BaseActivity
 import com.vj.butterfly.viewmodels.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +25,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
     private lateinit var mActivityLoginBinding: ActivityLoginBinding
     private lateinit var mLoginViewModel: LoginViewModel
 
@@ -43,10 +37,10 @@ class LoginActivity : AppCompatActivity() {
         lateinit var permissionHandler: PermissionHandler
     }
 
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
+    /*override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         if (hasFocus) hideSystemUI()
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -63,6 +57,15 @@ class LoginActivity : AppCompatActivity() {
         ).get(LoginViewModel::class.java)
         mActivityLoginBinding.loginVM = mLoginViewModel
         mActivityLoginBinding.lifecycleOwner = this@LoginActivity
+        biometricAuthentication { isSuccess ->
+            if(isSuccess){
+                showSnackBarToast(
+                    "Authentication Success", Snackbar.LENGTH_LONG, EnumConstants.POSITIVE_ACTION.ordinal
+                )
+            } else {
+                finish()
+            }
+        }
         AppPreferences.init(this)
         checkLogin()
 
@@ -102,7 +105,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun openMainActivity(){
-        val mainActivityIntent = Intent(this@LoginActivity, MainActivity::class.java)
+        val mainActivityIntent = Intent(this@LoginActivity, HomeActivity::class.java)
         startActivity(mainActivityIntent)
         finish()
     }
@@ -234,18 +237,18 @@ class LoginActivity : AppCompatActivity() {
         }
     }*/
 
-    private fun hideSystemBars() {
+    /*private fun hideSystemBars() {
         val insetsControllerCompat = WindowInsetsControllerCompat(window, window.decorView)
         insetsControllerCompat.systemBarsBehavior = BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
         insetsControllerCompat.hide(systemBars())
-    }
+    }*/
 
     /*private fun showSystemBars() {
         val insetsControllerCompat = WindowInsetsControllerCompat(window, window.decorView)
         insetsControllerCompat.show(systemBars())
     }*/
 
-    private fun hideSystemUI() {
+    /*private fun hideSystemUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             hideSystemBars()
         } else {
@@ -257,5 +260,5 @@ class LoginActivity : AppCompatActivity() {
                     or View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                     or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
         }
-    }
+    }*/
 }

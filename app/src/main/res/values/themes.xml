@@ -18,4 +18,9 @@
     <style name="TextHint.Size" parent="TextAppearance.Design.Hint">
         <item name="android:hint">@dimen/_9ssp</item>
     </style>
+    <!-- ShapeableImageView theme. (note that the parent matches the Base App theme) -->
+    <style name="ShapeAppearance.ImageView" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
